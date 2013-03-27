@@ -2,6 +2,7 @@ package openjade.trust;
 
 import java.util.List;
 
+import openjade.core.OpenAgent;
 import openjade.ontology.Rating;
 import openjade.trust.model.Pair;
 
@@ -19,9 +20,11 @@ public class NothingModel implements TrustModel {
 	public void setIteration(int iteration) {
 	}
 
-	@Override
 	public List<Pair> getPairs(String[] terms) {
 		return null;
+	}
+
+	public void setAgent(OpenAgent taskAgent) {
 	}
 
 }

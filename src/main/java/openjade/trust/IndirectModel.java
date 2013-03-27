@@ -1,68 +1,42 @@
 package openjade.trust;
 
-import jade.core.AID;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.List;
 
-import openjade.core.RatingCache;
 import openjade.ontology.Rating;
-import openjade.setting.Settings;
-import openjade.trust.model.Pair;
+import jade.core.AID;
 
-import org.apache.log4j.Logger;
 
-public class IndirectModel extends DirectModel {
+public class IndirectModel extends AbstractModel {
 
 	private static final long serialVersionUID = 1L;
-
-	private Hashtable<AID, RatingCache> ratingHash = new Hashtable<AID, RatingCache>();
-
-	private List<RatingCache> ratingList = new ArrayList<RatingCache>();
-
-	protected static Logger log = Logger.getLogger(IndirectModel.class);
-
-	private Settings config = Settings.getInstance();
-
-	private int iteration;
+	
+	private List<AID> pairs = new ArrayList<AID>();
 
 	public String getName() {
 		return "IndirectModel";
 	}
-
-	public void addRating(Rating rating) {
-		log.debug(" = " + rating.getClient().getLocalName() + " -> " + rating.getServer().getLocalName() + "[" + rating.getValue() + "] - term: " + rating.getTerm());
-		if (!ratingHash.containsKey(rating.getServer())) {
-			RatingCache cache = new RatingCache(iteration, config.getTrust_DirectCacheSize());
-			cache.add(rating);
-			ratingList.add(cache);
-			ratingHash.put(rating.getServer(), cache);
-		} else {
-			ratingHash.get(rating.getServer()).add(rating);
-		}
-	}
-
+	
+	@Override
 	public void setIteration(int _iteration) {
-		iteration = _iteration;
-		log.debug("new iteration [" + iteration + "]");
-		for (RatingCache rt : ratingList) {
-			rt.setIteration(iteration);
-		}
-	}
-
-	public List<Pair> getPairs(String[] terms) {
-		List<Pair> pairs = new ArrayList<Pair>();
-		Enumeration<AID> aids = ratingHash.keys();
-		while (aids.hasMoreElements()) {
-			AID aid = (AID) aids.nextElement();
-			if (ratingHash.get(aid).isCompleted()) {
-				pairs.add(new Pair(aid, ratingHash.get(aid).getValue()));
+		super.setIteration(_iteration);
+		if (iteration > 1 && iteration % 5 == 0){
+			for(AID pair : pairs){
+				
 			}
 		}
-		Collections.sort(pairs);
-		return pairs;
+	}
+	
+	@Override
+	public void addRating(Rating rating) {
+		super.addRating(rating);
+		addPair(rating.getServer());
+	}
+	
+	private void addPair(AID pair) {
+		if (!pairs.contains(pair)) {
+			pairs.add(pair);
+			log.debug("addPair: " + pair.toString());
+		}
 	}
 }
