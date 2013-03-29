@@ -27,21 +27,21 @@ public class IndirectModel extends AbstractModel {
 		if (iteration > 1 && iteration % 5 == 0){
 			for(AID pair : pairs){
 				
-				ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-				
-				SendRating sendRating = new SendRating();				
-				Rating rating = new Rating();
-				rating.setClient(pair);
-				rating.setIteration(_iteration);
-				rating.setServer(null);
-				rating.setTerm(null);
-				sendRating.setRating(rating);
-
-				
-				msg.setSender(this.myAgent.getAID());
-				msg.addReceiver(pair);
-				this.myAgent.fillContent(msg, sendRating, this.myAgent.getCodec(), OpenJadeOntology.getInstance());
-				this.myAgent.signerAndSend(msg);
+//				ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
+//				
+//				SendRating sendRating = new SendRating();				
+//				Rating rating = new Rating();
+//				rating.setClient(pair);
+//				rating.setIteration(_iteration);
+//				rating.setServer(null);
+//				rating.setTerm(null);
+//				sendRating.setRating(rating);
+//
+//				
+//				msg.setSender(this.myAgent.getAID());
+//				msg.addReceiver(pair);
+//				this.myAgent.fillContent(msg, sendRating, this.myAgent.getCodec(), OpenJadeOntology.getInstance());
+//				this.myAgent.signerAndSend(msg);
 			}
 		}
 	}
