@@ -1,5 +1,7 @@
 package openjade.trust;
 
+import jade.core.AID;
+
 import java.util.List;
 
 import openjade.core.OpenAgent;
@@ -25,6 +27,10 @@ public class NothingModel implements TrustModel {
 	}
 
 	public void setAgent(OpenAgent taskAgent) {
+	}
+
+	public List<Rating> getRatings(AID aid) {
+		return null;
 	}
 
 }

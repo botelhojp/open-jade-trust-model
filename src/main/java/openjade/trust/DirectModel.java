@@ -1,6 +1,7 @@
 package openjade.trust;
 
-public class DirectModel extends AbstractModel {
+
+public class DirectModel extends GenericTrustModel {
 
 	private static final long serialVersionUID = 1L;
 

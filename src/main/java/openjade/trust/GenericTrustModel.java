@@ -16,7 +16,7 @@ import openjade.trust.model.Pair;
 
 import org.apache.log4j.Logger;
 
-public abstract class AbstractModel implements TrustModel {
+public abstract class GenericTrustModel implements TrustModel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,10 +24,10 @@ public abstract class AbstractModel implements TrustModel {
 
 	private List<RatingCache> ratingList = new ArrayList<RatingCache>();
 
-	protected static Logger log = Logger.getLogger(AbstractModel.class);
+	protected static Logger log = Logger.getLogger(GenericTrustModel.class);
 
 	private Settings config = Settings.getInstance();
-	
+
 	protected OpenAgent myAgent;
 
 	protected int iteration;
@@ -44,6 +44,22 @@ public abstract class AbstractModel implements TrustModel {
 		} else {
 			ratingHash.get(rating.getServer()).add(rating);
 		}
+	}
+
+	public List<Rating> getRatings(AID aid) {
+		List<Rating> result = new ArrayList<Rating>();
+		RatingCache cache = ratingHash.get(aid);
+		if (cache != null) {
+			for (int it = cache.getMin(); it <= iteration; it++) {
+				List<Rating> ratings = cache.getRatings(it);
+				if (ratings != null) {
+					for (Rating rating : cache.getRatings(it)) {
+						result.add(rating);
+					}
+				}
+			}
+		}
+		return result;
 	}
 
 	public void setIteration(int _iteration) {
@@ -67,7 +83,7 @@ public abstract class AbstractModel implements TrustModel {
 		return pairs;
 	}
 
-	public  void setAgent(OpenAgent _agent) {
+	public void setAgent(OpenAgent _agent) {
 		this.myAgent = _agent;
 	}
 }
