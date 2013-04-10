@@ -19,7 +19,8 @@ public class IndirectModel extends GenericTrustModel {
 	public String getName() {
 		return "IndirectModel";
 	}
-
+	
+	
 	@Override
 	public void setIteration(int _iteration) {
 		super.setIteration(_iteration);
@@ -27,12 +28,12 @@ public class IndirectModel extends GenericTrustModel {
 			for (AID client : pairs) {
 				for (AID server : pairs) {
 					if (!client.equals(server)) {
-						RequestRating rr = new RequestRating();
-						rr.setAid(server);
+						RequestRating requestRating = new RequestRating();
+						requestRating.setAid(server);
 						ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
 						msg.setSender(myAgent.getAID());
 						msg.addReceiver(client);
-						myAgent.fillContent(msg, rr, myAgent.getCodec(), OpenJadeOntology.getInstance());
+						myAgent.fillContent(msg, requestRating, myAgent.getCodec(), OpenJadeOntology.getInstance());
 						myAgent.sendMessage(msg);
 					}
 				}
