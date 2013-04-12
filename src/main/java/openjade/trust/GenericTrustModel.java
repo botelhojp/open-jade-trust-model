@@ -45,6 +45,17 @@ public abstract class GenericTrustModel implements TrustModel {
 			ratingHash.get(rating.getServer()).add(rating);
 		}
 	}
+	
+	public Rating addRating(AID client, AID server, int iteration, String term, float value) {
+		Rating rating = new Rating();
+		rating.setClient(client);
+		rating.setIteration(iteration);
+		rating.setServer(server);
+		rating.setTerm(term);
+		rating.setValue(value);
+		addRating(rating);
+		return rating;
+	}
 
 	public List<Rating> getRatings(AID aid) {
 		List<Rating> result = new ArrayList<Rating>();
