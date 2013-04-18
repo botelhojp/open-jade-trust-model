@@ -45,7 +45,7 @@ public abstract class GenericTrustModel implements TrustModel {
 			ratingHash.get(rating.getServer()).add(rating);
 		}
 	}
-	
+
 	public Rating addRating(AID client, AID server, int iteration, String term, float value) {
 		Rating rating = new Rating();
 		rating.setClient(client);
@@ -92,6 +92,14 @@ public abstract class GenericTrustModel implements TrustModel {
 		}
 		Collections.sort(pairs);
 		return pairs;
+	}
+
+	public float getValue(AID server) {
+		if (ratingHash.containsKey(server)){
+			return ratingHash.get(server).getValue();
+		}else{
+			return 0F;
+		}
 	}
 
 	public void setAgent(OpenAgent _agent) {
